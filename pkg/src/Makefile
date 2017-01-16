@@ -5,7 +5,7 @@ JAR_NAME := sparkr-assembly-$(SPARKR_VERSION).jar
 SBT_TARGET_NAME := target/scala-$(SCALA_VERSION)/$(JAR_NAME)
 
 MAVEN_JAR_NAME := sparkr-$(SPARKR_VERSION)-assembly.jar
-MAVEN_TARGET_NAME := target/$(MAVEN_JAR_NAME)
+MAVEN_TARGET_NAME := /tmp/sparkRtarget/$(MAVEN_JAR_NAME)
 
 SCALA_SOURCE_DIR := src/main/scala/edu/berkeley/cs/amplab/sparkr
 RESOURCE_DIR := src/main/resources
@@ -38,7 +38,6 @@ $(SBT_TARGET_NAME): build.sbt $(SCALA_FILES) $(RESOURCE_FILES)
 	cp -f $(SBT_TARGET_NAME) ../inst/
 
 $(MAVEN_TARGET_NAME): pom.xml $(SCALA_FILES) $(RESOURCE_FILES)
-	mvn -Dhadoop.version=$(SPARK_HADOOP_VERSION) -Dspark.version=$(SPARK_VERSION) -DskipTests $(MAVEN_YARN_FLAG) -Dyarn.version=$(SPARK_YARN_VERSION) clean package shade:shade
 	cp -f $(MAVEN_TARGET_NAME) ../inst/$(JAR_NAME)
 
 sharelib: string_hash_code.c
